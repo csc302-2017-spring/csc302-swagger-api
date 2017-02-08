@@ -42,7 +42,8 @@ public class CvsTest {
 			//@Value("${data.source}")
 			//String datapath;
 			String datapath = "applicants.csv"; //giving up for now
-	        CsvRepository mock = new CsvRepository(datapath);
+	        CsvRepository mock = new CsvRepository();
+	        mock.setDatapath(datapath);
 	        return mock;
 	    }
 	}

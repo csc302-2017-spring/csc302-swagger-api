@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +31,6 @@ public class ApplicantsApiController implements ApplicantsApi {
 	private ApplicantRepository applicantRepository;
 
     public ResponseEntity<Applicant> addApplicant(@ApiParam(value = "applicant to add" ,required=true ) @RequestBody NewApplicant applicant) {
-        // do some magic!
         return new ResponseEntity<Applicant>(HttpStatus.OK);
     }
 
@@ -39,9 +39,18 @@ public class ApplicantsApiController implements ApplicantsApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Applicant>> findApplicant(@ApiParam(value = "surname to filter by") @RequestParam(value = "surname", required = false) List<String> surname,
-        @ApiParam(value = "maximum number of results to return") @RequestParam(value = "limit", required = false) Integer limit) {
+    public ResponseEntity<List<Applicant>> findApplicant(
+    		@ApiParam(value = "surname to filter by") @RequestParam(value = "surname", required = false) List<String> surname,
+    		@ApiParam(value = "maximum number of results to return") @RequestParam(value = "limit", required = false) Integer limit
+    		) {
         // do some magic!
+    	String filter_by = surname.get(0);
+    	List <Applicant> filtered_by_surname = new ArrayList<Applicant>(); 
+    	for(Applicant a: applicantRepository.getApplicants()){
+    		if (a.getFamilyname().equals(filter_by)){
+    			filtered_by_surname.add(a);
+    		}
+    	}
         return new ResponseEntity<List<Applicant>>(HttpStatus.OK);
     }
 
