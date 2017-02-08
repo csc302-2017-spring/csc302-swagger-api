@@ -6,6 +6,7 @@ import io.swagger.model.NewApplicant;
 
 import io.swagger.annotations.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-02-06T01:48:27.968Z")
 
 @Controller
 public class ApplicantsApiController implements ApplicantsApi {
+
+	@Autowired
+	private ApplicantRepository applicantRepository;
 
     public ResponseEntity<Applicant> addApplicant(@ApiParam(value = "applicant to add" ,required=true ) @RequestBody NewApplicant applicant) {
         // do some magic!
