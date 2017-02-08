@@ -70,5 +70,6 @@ public class CsvRepository implements ApplicantRepository {
 			return null;
 		}
 	}
+
 }
 

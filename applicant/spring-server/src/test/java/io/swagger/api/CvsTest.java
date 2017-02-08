@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
@@ -25,26 +26,27 @@ import io.swagger.model.Applicant;
 @ContextConfiguration
 public class CvsTest {
 
-	private String dataPath;
-	
-	@Value("${data.source}")
-	void setDataPath(String parm){
-		dataPath = parm;
-	}
-
-	//Crazy spring test bean injection infrastructure.
-	//apparently they think that a static class like this is a reasonable marker
-	//of where to inject. It gives the test writer a spot to modify the bean before it
-	//is injected. Presumably this help us mock stuff up (?)
+	// Way elaborate Spring test bean injection infrastructure.
+	// apparently they think that a static class like this is a reasonable marker
+	// of where to inject. It gives the test writer a spot to modify the bean before it
+	// is injected. Presumably this help is intended to help mock stuff up (?)
 	@Configuration
 	static public class ContextConfiguration {
-	    // this bean will be injected into the CvsTest class at the autowired thingy?
-	    @Bean
-	    public CsvRepository xx(){
-	    	//want to do the @Value("${data.source}") thing here but can't find incantation
-	        return new CsvRepository("applicants.csv");
+		CsvRepository mock;
+		@Bean
+	    public CsvRepository mockme(){
+	    	// there exists a system property set in src/main/resources/application.properties 
+	    	// naming the csv file containing the mock data.
+	    	// We want Spring to inject the value of the property here using its @Value("${data.source}")
+	    	// thing here but I can't find requisite incantation.
+			//@Value("${data.source}")
+			//String datapath;
+			String datapath = "applicants.csv"; //giving up for now
+	        CsvRepository mock = new CsvRepository(datapath);
+	        return mock;
 	    }
 	}
+	
 	@Autowired
 	private CsvRepository victim;
 	
