@@ -22,10 +22,23 @@ public class CsvRepository implements ApplicantRepository {
 	
 	private final List<Applicant> applicants;
 	
-	public CsvRepository(@Value("${data.source}") String dataPath) {
+	//TODO: figure out how to use @Value to push in data.source property
+	@Value("${data.source}")
+	private String datapath;
+		
+	public void setDatapath(String dp){
+		this.datapath = dp;
+	}
+
+	public CsvRepository() {
 		List<Applicant> _applicants = null;
+		
 		try {
-			String absolutePath = getClass().getClassLoader().getResource(dataPath).getFile();
+			if (this.datapath == null){
+				System.out.println("sigh, i guess I don't understand this @Value stuff");
+				this.datapath = "applicants.csv";
+			}
+			String absolutePath = getClass().getClassLoader().getResource(this.datapath).getFile();
 			//System.out.println(absolutePath);
 			//System.out.println(new File(absolutePath).toPath());
 			System.out.println(	Files.readAllLines(new File(absolutePath).toPath()));
@@ -69,6 +82,12 @@ public class CsvRepository implements ApplicantRepository {
 		else {
 			return null;
 		}
+	}
+
+	@Override
+	public void add(Applicant applicant) {
+		assert( applicants != null);
+		applicants.add(applicant);		
 	}
 
 }
