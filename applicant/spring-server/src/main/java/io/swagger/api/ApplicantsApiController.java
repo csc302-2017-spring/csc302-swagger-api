@@ -44,14 +44,18 @@ public class ApplicantsApiController implements ApplicantsApi {
     		@ApiParam(value = "maximum number of results to return") @RequestParam(value = "limit", required = false) Integer limit
     		) {
         // do some magic!
-    	String filter_by = surname.get(0);
-    	List <Applicant> filtered_by_surname = new ArrayList<Applicant>(); 
-    	for(Applicant a: applicantRepository.getApplicants()){
-    		if (a.getFamilyname().equals(filter_by)){
-    			filtered_by_surname.add(a);
-    		}
+    	if ( surname != null ){ 
+	    	String filter_by = surname.get(0);
+	    	List <Applicant> filtered_by_surname = new ArrayList<Applicant>(); 
+	    	for(Applicant a: applicantRepository.getApplicants()){
+	    		if (a.getFamilyname().equals(filter_by)){
+	    			filtered_by_surname.add(a);
+	    		}
+	    	}
+	    	return new ResponseEntity<List<Applicant>>(filtered_by_surname, HttpStatus.OK);
+    	}else{
+    		return new ResponseEntity<List<Applicant>>(applicantRepository.getApplicants(), HttpStatus.OK);
     	}
-        return new ResponseEntity<List<Applicant>>(HttpStatus.OK);
     }
 
     public ResponseEntity<Applicant> findApplicantById(@ApiParam(value = "ID of applicant to fetch",required=true ) @PathVariable("id") Long id) {

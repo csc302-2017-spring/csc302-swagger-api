@@ -17,8 +17,6 @@ host: "localhost:8080"
 basePath: "/api"
 schemes:
 - "http"
-consumes:
-- "application/json"
 produces:
 - "application/json"
 paths:
@@ -61,6 +59,8 @@ paths:
     post:
       description: "Creates a new applicant.  Duplicates are NOT allowed"
       operationId: "addApplicant"
+      consumes:
+        - "application/json"
       produces:
       - "application/json"
       parameters:

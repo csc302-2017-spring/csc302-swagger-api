@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-02-06T01:48:27.968Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-02-09T21:50:53.497Z")
 
 @Api(value = "applicants", description = "the applicants API")
 public interface ApplicantsApi {
@@ -39,7 +39,6 @@ public interface ApplicantsApi {
         @ApiResponse(code = 200, message = "unexpected error", response = Void.class) })
     @RequestMapping(value = "/applicants/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteApplicant(@ApiParam(value = "ID of Applicant to delete",required=true ) @PathVariable("id") Long id);
 
@@ -50,7 +49,6 @@ public interface ApplicantsApi {
         @ApiResponse(code = 200, message = "unexpected error", response = Applicant.class) })
     @RequestMapping(value = "/applicants",
         produces = { "application/json", "application/xml", "text/xml", "text/html" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<Applicant>> findApplicant(@ApiParam(value = "surname to filter by") @RequestParam(value = "surname", required = false) List<String> surname,
         @ApiParam(value = "maximum number of results to return") @RequestParam(value = "limit", required = false) Integer limit);
@@ -62,7 +60,6 @@ public interface ApplicantsApi {
         @ApiResponse(code = 200, message = "unexpected error", response = Applicant.class) })
     @RequestMapping(value = "/applicants/{id}",
         produces = { "application/json", "application/xml", "text/xml", "text/html" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<Applicant> findApplicantById(@ApiParam(value = "ID of applicant to fetch",required=true ) @PathVariable("id") Long id);
 
