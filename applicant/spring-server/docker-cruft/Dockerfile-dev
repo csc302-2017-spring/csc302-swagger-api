@@ -1,0 +1,23 @@
+FROM maven:latest
+
+# this is meant to be a "development" tools image, not a production deployment image
+
+# get the very latest
+# or, maybe if we need to be more specific: FROM maven:3-jdk-8-alpine
+
+
+# where source of project (dir containing pom.xml) will be mounted
+RUN mkdir /app
+VOLUME /app
+
+# where maven repo will be mounted
+VOLUME /root/.m2
+
+WORKDIR /app
+
+#NB: will stash a lot of maven thingies in /root/.m2. If pom.xml changes they will left there.
+
+EXPOSE 8080
+
+CMD echo 'this image intended to be run as: docker run -it -p 127.0.0:8080:8080 -v ~/.m2:/root/.m2 -v $PWD:/apps XXXX mvn spring-boot:run"
+
