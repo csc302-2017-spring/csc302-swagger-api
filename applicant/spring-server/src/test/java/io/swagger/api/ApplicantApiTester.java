@@ -20,29 +20,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 //@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 //@WebMvcTest(ApplicantsApiController.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
 public class ApplicantApiTester {
 
     @Autowired
     private MockMvc mockMvc;
-    
-	@Configuration
-	static public class ContextConfiguration {
-		ApplicantsApiController mockApiController;
-		@Bean
-		public ApplicantsApiController mockme(){
-			//I guess I really can't think of anything to do before testing this..
-			return mockApiController;
-		}
-	}
 
 	@Autowired
 	ApplicantsApiController victim;
 	
     @Before
     public void setup() {
-    	//this.mockMvc = MockMvcBuilders.standaloneSetup(new ApplicantsApiController()).build();
-    	this.mockMvc = MockMvcBuilders.standaloneSetup(victim).build();
+    	this.mockMvc = MockMvcBuilders.standaloneSetup(new ApplicantsApiController()).build();
     }
 
 	@Test
