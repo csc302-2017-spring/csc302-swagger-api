@@ -26,13 +26,15 @@ public class CsvRepository implements ApplicantRepository {
 	@Value("${data.source}")
 	private String datapath;
 		
-	public void setDatapath(String dp){
+	public CsvRepository setDatapath(String dp){
 		this.datapath = dp;
+		return this;
 	}
 
 	public CsvRepository() {
 		List<Applicant> _applicants = null;
 		
+		//TODO: add id
 		try {
 			if (this.datapath == null){
 				System.out.println("sigh, i guess I don't understand this @Value stuff");
