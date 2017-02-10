@@ -27,12 +27,15 @@ import io.swagger.model.Applicant;
 public class CvsTest {
 
 	// Way elaborate Spring test bean injection infrastructure.
-	// apparently they think that a static class like this is a reasonable marker
+	// This static class is used as a marker
 	// of where to inject. It gives the test writer a spot to modify the bean before it
-	// is injected. Presumably this help is intended to help mock stuff up (?)
+	// is injected.
+	// TODO: we do this because the constructor of CviRepository we want to create is not the default one.
+	// so the @Bean thing will get the instance into the container and then wiring will find it.
+	//	
 	@Configuration
 	static public class ContextConfiguration {
-		CsvRepository mock;
+		CsvRepository mock; //TODO: this is nonsense?
 		@Bean
 	    public CsvRepository mockme(){
 	    	// there exists a system property set in src/main/resources/application.properties 
