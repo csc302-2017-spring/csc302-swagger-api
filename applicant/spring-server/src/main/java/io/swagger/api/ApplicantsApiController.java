@@ -31,11 +31,12 @@ public class ApplicantsApiController implements ApplicantsApi {
 	private ApplicantRepository applicantRepository;
 
     public ResponseEntity<Applicant> addApplicant(@ApiParam(value = "applicant to add" ,required=true ) @RequestBody NewApplicant applicant) {
+    	//TODO: make an Applicant from the NewApplicant and insert it into the collection
         return new ResponseEntity<Applicant>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteApplicant(@ApiParam(value = "ID of Applicant to delete",required=true ) @PathVariable("id") Long id) {
-        // do some magic!
+        // find the 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
