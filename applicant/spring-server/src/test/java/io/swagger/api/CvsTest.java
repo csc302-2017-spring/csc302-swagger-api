@@ -2,18 +2,10 @@ package io.swagger.api;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,9 +19,8 @@ import io.swagger.model.Applicant;
 public class CvsTest {
 
 	// Way elaborate Spring test bean injection infrastructure.
-	// This static class is used as a marker
-	// of where to inject. It gives the test writer a spot to modify the bean before it
-	// is injected.
+	// This static class is used as a marker of where to inject. 
+	// It gives the test writer a spot to modify the bean before it is injected.
 	// TODO: we do this because the constructor of CviRepository we want to create is not the default one.
 	// so the @Bean thing will get the instance into the container and then wiring will find it.
 	//	
