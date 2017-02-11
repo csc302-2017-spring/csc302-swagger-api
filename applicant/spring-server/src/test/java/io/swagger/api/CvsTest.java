@@ -49,6 +49,8 @@ public class CvsTest {
 	public void test() {
 		List<Applicant> applicantsFromCsvFile = victim.getApplicants();
 		Applicant jane = applicantsFromCsvFile.get(0);
+		//how to check if id is set somehow sane?
+		//well, to prod my code let's assume that id for these two much be either 0 or 1 and are different
 		assertEquals(jane.getFamilyname(), "Doe");
 		assertEquals(jane.getGivenname(), "Jane");
 		assertEquals(jane.getPhonenumber(), "(416)000-0000");
@@ -56,10 +58,13 @@ public class CvsTest {
 		assertTrue(jane.getYear() == 2);
 		assertEquals(jane.getWorkstatus(), "Eligible");
 		assertEquals(jane.getDateofapplication(),"20170101");
+		assertTrue(jane.getId() == 0 || jane.getId() == 1);
 		
 		Applicant john = applicantsFromCsvFile.get(1);
 		assertEquals(john.getFamilyname(), "Doe");
 		assertEquals(john.getGivenname(), "John");
+		assertTrue(john.getId() == 0 || john.getId() == 1);
+		assertTrue(john.getId() != jane.getId());
 	}
 
 }

@@ -20,6 +20,7 @@ import io.swagger.model.Applicant;
 @Component
 public class CsvRepository implements ApplicantRepository {
 	
+	int id; //oid for each applicant 
 	private final List<Applicant> applicants;
 	
 	//TODO: figure out how to use @Value to push in data.source property
@@ -28,13 +29,13 @@ public class CsvRepository implements ApplicantRepository {
 		
 	public CsvRepository setDatapath(String dp){
 		this.datapath = dp;
+		this.id = 0;
 		return this;
 	}
 
 	public CsvRepository() {
 		List<Applicant> _applicants = null;
 		
-		//TODO: add id
 		try {
 			if (this.datapath == null){
 				System.out.println("sigh, i guess I don't understand this @Value stuff");
@@ -68,18 +69,19 @@ public class CsvRepository implements ApplicantRepository {
 	private Applicant parseCsvStringToApplicant(String csvString) {
 		List<String> fields = Arrays.asList(csvString.split(","));
 		if (fields.size() == 10) {
-			Applicant applicant = new Applicant();
-			applicant.setStudentnumber(Integer.getInteger(fields.get(0)));
-			applicant.setFamilyname(fields.get(1));
-			applicant.setGivenname(fields.get(2));
-			applicant.setPhonenumber(fields.get(3));
-			applicant.setStudentdepartment(fields.get(4));
-			applicant.setProgram(fields.get(5));
-			applicant.setYear(new Integer(fields.get(6)).intValue());
-			applicant.setWorkstatus(fields.get(7));
-			applicant.setWorkstatusexplain(fields.get(8));
-			applicant.setDateofapplication(fields.get(9));
-			return applicant;
+			Applicant newApplicant = new Applicant();
+			newApplicant.setId(this.id++);
+			newApplicant.setStudentnumber(Integer.getInteger(fields.get(0)));
+			newApplicant.setFamilyname(fields.get(1));
+			newApplicant.setGivenname(fields.get(2));
+			newApplicant.setPhonenumber(fields.get(3));
+			newApplicant.setStudentdepartment(fields.get(4));
+			newApplicant.setProgram(fields.get(5));
+			newApplicant.setYear(new Integer(fields.get(6)).intValue());
+			newApplicant.setWorkstatus(fields.get(7));
+			newApplicant.setWorkstatusexplain(fields.get(8));
+			newApplicant.setDateofapplication(fields.get(9));
+			return newApplicant;
 		}
 		else {
 			return null;
