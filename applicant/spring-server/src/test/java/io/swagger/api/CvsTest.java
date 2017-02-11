@@ -83,6 +83,14 @@ public class CvsTest {
 		a.setWorkstatusexplain("citizen");
 		a.setDateofapplication("today"); //TODO: today should bite someone sooner or later
 		this.victim.add(a);
+		boolean found = false;
+		for(Applicant anApplicant: victim.getApplicants()){
+			if (anApplicant.getFamilyname().equals("Zaleski") ){
+				assertFalse(found);
+				found = true;
+			}
+		}
+		assertTrue(found);
 	}
 
 }
