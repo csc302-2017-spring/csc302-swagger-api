@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import io.swagger.model.Applicant;
+import io.swagger.model.NewApplicant;
 
 
 @Component
@@ -53,7 +54,7 @@ public class CsvRepository implements ApplicantRepository {
 			_applicants =
 					Files.readAllLines(new File(absolutePath).toPath())
 					.stream()
-					.map(this::parseCsvStringToApplicant)
+					.map(this::parseCsvStringToApplicant) //how to add id too?
 //					.filter(x -> null != x)
 					.collect(Collectors.toList());
 		} catch (IOException e) {
@@ -68,6 +69,7 @@ public class CsvRepository implements ApplicantRepository {
 	
 	private Applicant parseCsvStringToApplicant(String csvString) {
 		List<String> fields = Arrays.asList(csvString.split(","));
+		//TODO: use builder pattern to DRY this up
 		if (fields.size() == 10) {
 			Applicant newApplicant = new Applicant();
 			newApplicant.setId(this.id++);
@@ -88,10 +90,31 @@ public class CsvRepository implements ApplicantRepository {
 		}
 	}
 
+	private void addNewOne(Applicant newApplicant){
+		//into list, with id
+		newApplicant.setId(this.id++);
+		this.applicants.add(newApplicant);
+	}
+	
+	public void addNewApplicant(NewApplicant newa){
+		Applicant a = new Applicant();
+		//TODO:ask dustin if is a slick way of doing this sort of copying in Java
+		a.setStudentnumber(newa.getStudentnumber());				
+		a.setFamilyname(newa.getFamilyname());
+		a.setGivenname(newa.getGivenname());
+		a.setPhonenumber(newa.getPhonenumber());
+		a.setStudentdepartment(newa.getStudentdepartment());
+		a.setProgram(newa.getProgram());
+		a.setYear(newa.getYear());
+		a.setWorkstatus(newa.getWorkstatus());
+		a.setWorkstatusexplain(newa.getWorkstatusexplain());
+		a.setDateofapplication(newa.getDateofapplication());
+		addNewOne(a);
+	}
 	@Override
-	public void add(Applicant applicant) {
-		assert( applicants != null);
-		applicants.add(applicant);		
+	public void add(NewApplicant newApplicant) {
+		assert( newApplicant != null);
+		addNewApplicant(newApplicant);
 	}
 
 }

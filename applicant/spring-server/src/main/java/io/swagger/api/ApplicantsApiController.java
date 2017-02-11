@@ -30,8 +30,8 @@ public class ApplicantsApiController implements ApplicantsApi {
 	@Autowired
 	private ApplicantRepository applicantRepository;
 
-    public ResponseEntity<Applicant> addApplicant(@ApiParam(value = "applicant to add" ,required=true ) @RequestBody NewApplicant applicant) {
-    	//TODO: make an Applicant from the NewApplicant and insert it into the collection
+    public ResponseEntity<Applicant> addApplicant(@ApiParam(value = "applicant to add" ,required=true ) @RequestBody NewApplicant newApplicant) {
+    	applicantRepository.add(newApplicant);
         return new ResponseEntity<Applicant>(HttpStatus.OK);
     }
 

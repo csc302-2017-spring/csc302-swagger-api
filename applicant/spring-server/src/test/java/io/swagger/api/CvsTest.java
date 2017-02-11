@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import io.swagger.api.CsvRepository;
 import io.swagger.model.Applicant;
+import io.swagger.model.NewApplicant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -65,6 +66,23 @@ public class CvsTest {
 		assertEquals(john.getGivenname(), "John");
 		assertTrue(john.getId() == 0 || john.getId() == 1);
 		assertTrue(john.getId() != jane.getId());
+	}
+	
+	@Test
+	public void testAdd() {
+
+		NewApplicant a = new NewApplicant();
+		a.setStudentnumber(771734940);
+		a.setFamilyname("Zaleski");
+		a.setGivenname("Mathew");
+		a.setPhonenumber("222-2222");
+		a.setStudentdepartment("CS");
+		a.setProgram("PHD");
+		a.setYear(42);
+		a.setWorkstatus("OKAY");
+		a.setWorkstatusexplain("citizen");
+		a.setDateofapplication("today"); //TODO: today should bite someone sooner or later
+		this.victim.add(a);
 	}
 
 }
