@@ -1,4 +1,3 @@
----
 swagger: "2.0"
 info:
   description: "sample API that illustrates a basic way Applicants could shared between\
@@ -51,6 +50,9 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Applicant"
+        404:
+          description: "not found"
+          $ref: "#/definitions/errorModel"
         default:
           description: "unexpected error"
           schema:
@@ -102,6 +104,9 @@ paths:
           description: "Applicant response"
           schema:
             $ref: "#/definitions/Applicant"
+        404:
+          description: "not found"
+            $ref: "#/definitions/errorModel"
         default:
           description: "unexpected error"
           schema:
@@ -120,6 +125,8 @@ paths:
       responses:
         204:
           description: "applicant deleted"
+        404:
+          description: "not found"
         default:
           description: "unexpected error"
           schema:
