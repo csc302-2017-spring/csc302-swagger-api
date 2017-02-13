@@ -126,6 +126,16 @@ public class CsvRepository implements ApplicantRepository {
 		}
 		return false; //failed to find it
 	}
+
+	@Override
+	public Applicant find(Long id) {
+		for(Applicant a: applicants){
+			if (a.getId() == id){
+				return a;
+			}
+		}
+		return null; //not found
+	}
 	
 }
 

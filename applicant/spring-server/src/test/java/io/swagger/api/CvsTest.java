@@ -68,6 +68,20 @@ public class CvsTest {
 		assertTrue(john.getId() != jane.getId());
 	}
 	
+
+	@Test
+	public void testFind() {
+		List<Applicant> applicantsFromCsvFile = victim.getApplicants();
+		Applicant firstOne = null;
+		for(Applicant anApplicant: applicantsFromCsvFile) {
+			firstOne = anApplicant;
+		}
+		assertTrue(firstOne != null);
+		long id = firstOne.getId();
+		Applicant shouldBeSameAsFirstOne = victim.find(id);
+		assertTrue(firstOne.equals(shouldBeSameAsFirstOne));
+	}
+	
 	@Test
 	public void testAddDelete() {
 

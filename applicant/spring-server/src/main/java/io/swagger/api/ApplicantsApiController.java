@@ -69,8 +69,12 @@ public class ApplicantsApiController implements ApplicantsApi {
     }
 
     public ResponseEntity<Applicant> findApplicantById(@ApiParam(value = "ID of applicant to fetch",required=true ) @PathVariable("id") Long id) {
-        // //real work
-        return new ResponseEntity<Applicant>(HttpStatus.OK);
+    	Applicant a = null;
+    	if ( (a = applicantRepository.find(id)) != null){
+    		return new ResponseEntity<Applicant>(a, HttpStatus.OK);
+    	}else{
+    		return new ResponseEntity<Applicant>(HttpStatus.NOT_FOUND);    		
+    	}
     }
 
 }
