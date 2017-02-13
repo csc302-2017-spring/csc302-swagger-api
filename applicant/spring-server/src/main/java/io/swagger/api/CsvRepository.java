@@ -117,13 +117,14 @@ public class CsvRepository implements ApplicantRepository {
 		addNewApplicant(newApplicant);
 	}
 
-	public void delete(Long id){
+	public boolean delete(Long id){
 		for(Applicant a: applicants){
 			if (a.getId() == id){
 				applicants.remove(a);
-				return;
+				return true;
 			}
 		}
+		return false; //failed to find it
 	}
 	
 }

@@ -9,6 +9,6 @@ public interface ApplicantRepository {
 
 	public List<Applicant> getApplicants();
 	public void add(NewApplicant applicant);
-	public void delete(Long id);
+	public boolean delete(Long id); //returns true if id valid, perms okay, and deleted.
 }
 

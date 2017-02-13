@@ -36,8 +36,11 @@ public class ApplicantsApiController implements ApplicantsApi {
     }
 
     public ResponseEntity<Void> deleteApplicant(@ApiParam(value = "ID of Applicant to delete",required=true ) @PathVariable("id") Long id) {
-    	applicantRepository.delete(id);         //real work
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    	if ( applicantRepository.delete(id)){
+    		return new ResponseEntity<Void>(HttpStatus.OK);
+    	}else{
+    		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+    	}
     }
 
     public ResponseEntity<List<Applicant>> findApplicant(
@@ -45,15 +48,21 @@ public class ApplicantsApiController implements ApplicantsApi {
     		@ApiParam(value = "maximum number of results to return") @RequestParam(value = "limit", required = false) Integer limit
     		) {
         //real work
+    	boolean found = false;
     	if ( surname != null ){ 
 	    	String filter_by = surname.get(0);
 	    	List <Applicant> filtered_by_surname = new ArrayList<Applicant>(); 
 	    	for(Applicant a: applicantRepository.getApplicants()){
 	    		if (a.getFamilyname().equals(filter_by)){
 	    			filtered_by_surname.add(a);
+	    			found = true;
 	    		}
 	    	}
-	    	return new ResponseEntity<List<Applicant>>(filtered_by_surname, HttpStatus.OK);
+	    	if (found){
+	    		return new ResponseEntity<List<Applicant>>(filtered_by_surname, HttpStatus.OK);
+	    	}else{
+	    		return new ResponseEntity<List<Applicant>>(filtered_by_surname, HttpStatus.NOT_FOUND);
+	    	}
     	}else{
     		return new ResponseEntity<List<Applicant>>(applicantRepository.getApplicants(), HttpStatus.OK);
     	}
