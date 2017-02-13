@@ -21,7 +21,7 @@ import io.swagger.model.NewApplicant;
 @Component
 public class CsvRepository implements ApplicantRepository {
 	
-	int id; //oid for each applicant 
+	long id; //oid for each applicant 
 	private final List<Applicant> applicants;
 	
 	//TODO: figure out how to use @Value to push in data.source property
@@ -30,11 +30,11 @@ public class CsvRepository implements ApplicantRepository {
 		
 	public CsvRepository setDatapath(String dp){
 		this.datapath = dp;
-		this.id = 0;
 		return this;
 	}
 
 	public CsvRepository() {
+		this.id = 0;
 		List<Applicant> _applicants = null;
 		
 		try {
@@ -117,5 +117,14 @@ public class CsvRepository implements ApplicantRepository {
 		addNewApplicant(newApplicant);
 	}
 
+	public void delete(Long id){
+		for(Applicant a: applicants){
+			if (a.getId() == id){
+				applicants.remove(a);
+				return;
+			}
+		}
+	}
+	
 }
 

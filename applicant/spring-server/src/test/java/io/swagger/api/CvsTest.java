@@ -69,7 +69,7 @@ public class CvsTest {
 	}
 	
 	@Test
-	public void testAdd() {
+	public void testAddDelete() {
 
 		NewApplicant a = new NewApplicant();
 		a.setStudentnumber(771734940);
@@ -84,13 +84,23 @@ public class CvsTest {
 		a.setDateofapplication("today"); //TODO: today should bite someone sooner or later
 		this.victim.add(a);
 		boolean found = false;
+		long insertedId = -1;
 		for(Applicant anApplicant: victim.getApplicants()){
 			if (anApplicant.getFamilyname().equals("Zaleski") ){
 				assertFalse(found);
 				found = true;
+				insertedId = anApplicant.getId();
 			}
 		}
-		assertTrue(found);
+		assertTrue(insertedId != -1);
+		//now delete it
+		victim.delete(insertedId);
+		//now make sure it's gone!
+		for(Applicant anApplicant: victim.getApplicants()){
+			if (anApplicant.getId() == insertedId ){
+				fail("still applicant there. delete failed");
+			}
+		}	
 	}
 
 }

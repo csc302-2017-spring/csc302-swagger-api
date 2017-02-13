@@ -31,12 +31,12 @@ public class ApplicantsApiController implements ApplicantsApi {
 	private ApplicantRepository applicantRepository;
 
     public ResponseEntity<Applicant> addApplicant(@ApiParam(value = "applicant to add" ,required=true ) @RequestBody NewApplicant newApplicant) {
-    	applicantRepository.add(newApplicant);
+    	applicantRepository.add(newApplicant); //real work
         return new ResponseEntity<Applicant>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteApplicant(@ApiParam(value = "ID of Applicant to delete",required=true ) @PathVariable("id") Long id) {
-        // find the 
+    	applicantRepository.delete(id);         //real work
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
@@ -44,7 +44,7 @@ public class ApplicantsApiController implements ApplicantsApi {
     		@ApiParam(value = "surname to filter by") @RequestParam(value = "surname", required = false) List<String> surname,
     		@ApiParam(value = "maximum number of results to return") @RequestParam(value = "limit", required = false) Integer limit
     		) {
-        // do some magic!
+        //real work
     	if ( surname != null ){ 
 	    	String filter_by = surname.get(0);
 	    	List <Applicant> filtered_by_surname = new ArrayList<Applicant>(); 
@@ -60,7 +60,7 @@ public class ApplicantsApiController implements ApplicantsApi {
     }
 
     public ResponseEntity<Applicant> findApplicantById(@ApiParam(value = "ID of applicant to fetch",required=true ) @PathVariable("id") Long id) {
-        // do some magic!
+        // //real work
         return new ResponseEntity<Applicant>(HttpStatus.OK);
     }
 

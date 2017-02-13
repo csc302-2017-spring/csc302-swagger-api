@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Applicant   {
   @JsonProperty("id")
-  private Integer id = null;
+  private long id = -1;
 
   @JsonProperty("studentnumber")
   private Integer studentnumber = null;
@@ -67,11 +67,11 @@ public class Applicant   {
    * @return id
   **/
   @ApiModelProperty(required = true, value = "")
-  public Integer getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(long id) {
     this.id = id;
   }
 
