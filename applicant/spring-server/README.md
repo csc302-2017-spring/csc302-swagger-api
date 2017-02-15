@@ -15,7 +15,25 @@ Start your server as an simple java application or from the command line using:
 mvn spring-boot:run 
 ```
 
+If you want to run under docker (rather than installing maven et al):
+
+```
+docker run -it \
+	-p 127.0.0.1:8080:8080 \
+	-v ~/.m2:/root/.m2 \
+	-v $PWD:/apps \
+	--workdir /apps \
+	--expose 8080 \
+	maven:latest \
+	mvn spring-boot:run 
+```
+
 You can view the api documentation in swagger-ui by pointing to  
 http://localhost:8080/  
 
 Change default port value in application.properties
+
+
+Also, the spring code can be read into a project in eclipse by "File->import" then choosing to import "Existing Maven Projects".
+Point the import to generated spring-server directory containing the pom.xml file. (Same as eclipse recipe for all the CSC301 individual assignments)
+

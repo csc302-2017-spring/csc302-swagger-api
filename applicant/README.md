@@ -36,12 +36,7 @@ Note: the local URL above is embedded in the swagger YAML.
 
 Similarly, you could generate code to run a Java Spring server (actually SpringBoot, there are sub-flavours of Spring that swagger appears not to support yet).
 
-Running this one is a bit tricker, the instructions are missing from the README. This worked for me:
+See the instructions in the the spring-server directory below.
 
-```
-mvn install
-java -jar target/swagger-spring-1.0.0.jar
-```
-Also, I could read the project into eclipse by "File->import" then choosing to import "Existing Maven Projects". Then you navigate to the to the generated spring-server directory containing the pom.xml file. (This was the eclipse recipe for all the CSC301 individual assignments)
 
 
