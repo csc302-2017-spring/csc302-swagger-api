@@ -8,7 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication
+@SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan
+
 @EnableSwagger2
 @ComponentScan(basePackages = "io.swagger")
 public class Swagger2SpringBoot implements CommandLineRunner {
