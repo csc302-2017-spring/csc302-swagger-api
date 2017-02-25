@@ -2,7 +2,6 @@ package io.swagger.api;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,15 +9,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import io.swagger.model.Applicant;
 import io.swagger.model.NewApplicant;
 
 
+/**
+ * @author mzaleski
+ * CvsRepository is meant to serve as a dummy implementation of a collection of Applicants underlying the applicant API.
+ * A useful API would be backed by a database, but this one is loaded up from a CSV (comma separated value) file.
+ * Also, for test purposes (eg from junit), it can be initialized by a list of strings. 
+ */
 @Component
 public class CsvRepository implements ApplicantRepository {
 	
@@ -28,41 +30,49 @@ public class CsvRepository implements ApplicantRepository {
 	//TODO: figure out how to use @Value to push in data.source property
 	@Value("${data.source}")
 	private String datapath;
-		
-	public CsvRepository setDatapath(String dp){
-		this.datapath = dp;
+
+	public CsvRepository() {
+		//TODO: Research why need default constructor. added because container was attempting to use it.
+		this.applicants = null;
+	}
+
+	
+	/**
+	 * Constructor passed name of java resource which names the CSV file we read Applicants from
+	 * @param resourcePathOfCsvFile
+	 */
+	public CsvRepository(String resourcePathOfCsvFile){
+		List<Applicant> _applicants = null;
+		try {
+			String absolutePath = getClass().getClassLoader().getResource(resourcePathOfCsvFile).getFile();
+			_applicants = init(Files.readAllLines(new File(absolutePath).toPath()));
+		} catch (IOException e) {
+			_applicants = init(new ArrayList<String>());
+		}
+		this.applicants = _applicants;
+	}
+	
+	/**
+	 * Constructor passed list of CSV strings that Applicant names can be read from. For Junits. 
+	 * @param dummyCsvLines
+	 */
+	public CsvRepository(List<String> dummyCsvLines){
+		this.applicants = init(dummyCsvLines);
+	}
+	
+
+	public List<Applicant> init(List<String>lines){
+		return	lines
+				.stream()
+				.map(this::parseCsvStringToApplicant) //how to add id too?
+				.collect(Collectors.toList());
+	}
+
+	public CsvRepository setDatapath(String filename){
+		this.datapath = filename;
 		return this;
 	}
 
-	public CsvRepository() {
-		this.id = 0;
-		List<Applicant> _applicants = null;
-		
-		try {
-			if (this.datapath == null){
-				System.out.println("sigh, i guess I don't understand this @Value stuff");
-				this.datapath = "applicants.csv";
-			}
-			String absolutePath = getClass().getClassLoader().getResource(this.datapath).getFile();
-			//System.out.println(absolutePath);
-			//System.out.println(new File(absolutePath).toPath());
-			System.out.println(	Files.readAllLines(new File(absolutePath).toPath()));
-			List<String> xx =	Files.readAllLines(new File(absolutePath).toPath());
-			for(String s:xx){
-				System.out.println(s);
-			}
-			System.out.println(xx.stream());
-			_applicants =
-					Files.readAllLines(new File(absolutePath).toPath())
-					.stream()
-					.map(this::parseCsvStringToApplicant) //how to add id too?
-//					.filter(x -> null != x)
-					.collect(Collectors.toList());
-		} catch (IOException e) {
-			_applicants = new ArrayList<Applicant>();
-		}
-		applicants = _applicants;
-	}
 	
 	public List<Applicant> getApplicants() {
 		return this.applicants;

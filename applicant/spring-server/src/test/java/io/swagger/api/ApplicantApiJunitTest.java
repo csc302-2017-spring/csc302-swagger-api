@@ -26,34 +26,38 @@ public class ApplicantApiTest2 {
 }*/
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import io.swagger.api.CsvRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 
-public class ApplicantApiTest { 
+public class ApplicantApiJunitTest { 
 
 	private MockMvc mockMvc; //fake model-view-controller for this test
 
 	@Autowired
 	private ApplicantsApiController apicontroller;
 
+	static final String dummyCsvLinesForJunitTests[] = {
+			"000000000,Smith,Jane,(416)000-0000,ECE,BSC,2,Eligible,,20170101",
+			"000000001,Jones,John,(416)000-0001,CSC,BSC,1,Eligible,,20170101"
+		};
 
 	@Configuration
 	static public class ContextConfiguration {
 		@Bean
-		public ApplicantRepository repoBean() {
-			// there exists a system property set in src/main/resources/application.properties
-			// naming the csv file containing the mock data.
-			// We want Spring to inject the value of the property here using  @Value("${data.source}")
-			// @Value("${data.source}") //giving up on @Value business for now
-			final String datapath = "applicants.csv";
-			return (new CsvRepository()).setDatapath(datapath);
+		public ApplicantRepository csvRepoBeanFromFileNamedByDataResource() {
+			return (new CsvRepository(Arrays.asList(dummyCsvLinesForJunitTests)));
 		}
 
 		@Bean
 		public ApplicantsApiController controllerBean() {
-			return (new ApplicantsApiController()); // TODO: find better way of wiring this
+			return (new ApplicantsApiController()); 
 		}
 	}
     
@@ -68,7 +72,7 @@ public class ApplicantApiTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json;charset=UTF-8"))
             .andExpect(jsonPath("$.id").value(0))
-            .andExpect(jsonPath("$.familyname").value("Doe"))
+            .andExpect(jsonPath("$.familyname").value("Smith"))
             .andExpect(jsonPath("$.givenname").value("Jane"));
     }
 }
