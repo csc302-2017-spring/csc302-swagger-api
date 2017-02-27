@@ -28,8 +28,8 @@ docker run -it \
 	mvn spring-boot:run 
 ```
 
-You can view the api documentation in swagger-ui by pointing to  
-http://localhost:8080/api
+Once the server is running you can view the api documentation (and try out the api) in swagger-ui by pointing to  
+[http://localhost:8080/api](http://localhost:8080/api)
 
 Change default port value in application.properties
 
