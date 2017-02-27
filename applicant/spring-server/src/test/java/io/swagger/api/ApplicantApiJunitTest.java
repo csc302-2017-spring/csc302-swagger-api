@@ -1,6 +1,8 @@
 package io.swagger.api;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,24 +17,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/*
-public class ApplicantApiTest2 {
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-
-}*/
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 import io.swagger.api.CsvRepository;
 
+/**
+ * @author mzaleski
+ * Test api using mock of http servlet responses
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 
@@ -52,11 +46,12 @@ public class ApplicantApiJunitTest {
 	static public class ContextConfiguration {
 		@Bean
 		public ApplicantRepository csvRepoBeanFromFileNamedByDataResource() {
+			//container will wire this bean into the ApplicantApiController instantiated below
 			return (new CsvRepository(Arrays.asList(dummyCsvLinesForJunitTests)));
 		}
-
 		@Bean
 		public ApplicantsApiController controllerBean() {
+			//container will wire this bean to this.apicontroller above 
 			return (new ApplicantsApiController()); 
 		}
 	}
@@ -67,7 +62,7 @@ public class ApplicantApiJunitTest {
     }
 
     @Test
-    public void getAccount() throws Exception {
+    public void getApplicant0() throws Exception {
         this.mockMvc.perform(get("/applicants/0").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -75,4 +70,20 @@ public class ApplicantApiJunitTest {
             .andExpect(jsonPath("$.familyname").value("Smith"))
             .andExpect(jsonPath("$.givenname").value("Jane"));
     }
+    @Test
+    public void getAllApplicants() throws Exception {
+       	this.mockMvc.perform(get("/applicants/").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("application/json;charset=UTF-8"))
+            .andExpect((jsonPath("$").isArray()))
+            .andExpect(jsonPath("$", hasSize(2))) 
+            .andExpect(jsonPath("$[0].id", is(0)))
+            .andExpect(jsonPath("$[0].familyname", is("Smith")))
+            .andExpect(jsonPath("$[0].givenname", is("Jane")))
+            .andExpect(jsonPath("$[1].id", is(1)))
+            .andExpect(jsonPath("$[1].familyname", is("Jones")))
+            .andExpect(jsonPath("$[1].givenname", is("John")));
+    }
+    
+    
 }
