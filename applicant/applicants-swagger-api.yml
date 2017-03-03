@@ -182,6 +182,7 @@ definitions:
         type: "string"
       dateofapplication:
         type: "string"
+        format: "date-time"
   newApplicant:
     type: "object"
     required:
@@ -228,6 +229,7 @@ definitions:
         type: "string"
       dateofapplication:
         type: "string"
+        format: "date-time"
   errorModel:
     type: "object"
     required:
